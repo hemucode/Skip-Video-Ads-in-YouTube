@@ -1,0 +1,14 @@
+{
+   "app_description": {
+      "message": "Play any YouTube Video without annoying Ads."
+   },
+   "app_name": {
+      "message": "Skip Video Ads in YouTube™"
+   },
+   "full_description": {
+      "message": "Skip Video Ads in YouTube™ is a content filtering and ad blocking browser extension which blocks all ads on Youtube™.It allows users to prevent page elements, such as advertisements, from being displayed. Banner, Ad-Clips or even preroll ads you usually see before the actual video on Youtube are blocked by this extension."
+   },
+   "rate": {
+      "message": "Please help and rate us!"
+   }
+}
