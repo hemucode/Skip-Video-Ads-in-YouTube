@@ -7,11 +7,11 @@ function translate() {
     const elements = document.querySelectorAll("[data-message]");
     for (const element of elements) {
       const key = element.dataset.message;
-      const message = chrome.i18n.getMessage(key);
+      const message = browser.i18n.getMessage(key);
       if (message) {
         element.textContent = message;
       } else {
-        console.error("Missing chrome.i18n message:", key);
+        console.error("Missing browser.i18n message:", key);
       }
     }
     resolve();
@@ -22,13 +22,9 @@ function translate() {
  * @returns Promise
  */
 async function hydrate() {
-  // Get settings
-  // const { enabled, videoCount } = await chrome.storage.sync.get({
-  //   enabled: true,
-  //   videoCount: 0,
-  // });
+
    var a = new Promise(function(resolve, reject){
-        chrome.storage.sync.get({"enabled": true}, function(options){
+        browser.storage.local.get({"enabled": true}, function(options){
             resolve(options.enabled);
         })
     });
@@ -37,7 +33,7 @@ async function hydrate() {
   console.log(enabled);
 
   var c = new Promise(function(resolve, reject){
-        chrome.storage.sync.get({"videoCount": 0}, function(options){
+        browser.storage.local.get({"videoCount": 0}, function(options){
             resolve(options.videoCount);
         })
     });
@@ -54,7 +50,7 @@ async function hydrate() {
   const $timeSaveInfo = document.querySelector(".timesave-info");
   const adTimePerVideo = 0.5;
   const timeSaved = Math.ceil(videoCount * adTimePerVideo);
-  $timeSaveInfo.textContent = chrome.i18n.getMessage("timesaveInfo", [
+  $timeSaveInfo.textContent = browser.i18n.getMessage("timesaveInfo", [
     new Intl.NumberFormat(undefined, {
       style: "unit",
       unit: "minute",
@@ -64,7 +60,7 @@ async function hydrate() {
 
   // Hydrate Checkbox Label
   const $checkboxLabel = document.querySelector("[data-message=enabled]");
-  $checkboxLabel.textContent = chrome.i18n.getMessage(
+  $checkboxLabel.textContent = browser.i18n.getMessage(
     enabled ? "enabled" : "disabled"
   );
 
@@ -75,10 +71,10 @@ async function hydrate() {
     const enabled = event.currentTarget.checked;
 
     // Persist
-    await chrome.storage.sync.set({ enabled });
+    await browser.storage.local.set({ enabled });
 
     // Update Checkbox Label
-    $checkboxLabel.textContent = chrome.i18n.getMessage(
+    $checkboxLabel.textContent = browser.i18n.getMessage(
       enabled ? "enabled" : "disabled"
     );
 

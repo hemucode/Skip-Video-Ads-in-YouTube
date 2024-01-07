@@ -6,9 +6,20 @@
 }
 
 body {
-  padding: 0;
-  min-width: 240px;
+  padding: 8px 16px;
+  text-align: center;
+  width: 200px;
+  font-family: sans-serif;
+  background-color: var(--background-color);
   font-size: 81.25%;
+}
+
+h1 {
+  margin-top: 4px;
+}
+
+.logo {
+  transition: all 0.3s ease;
 }
 
 [is="action-link"],
@@ -19,7 +30,12 @@ body {
 }
 
 .control {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  text-align: right;
+  border-top: 1px solid #00000017;
+  margin-right: -10px;
+  margin-left: -10px;
+  margin-top: 18px;
+  padding: 10px 10px 0px 10px;
 }
 
 .switch {
@@ -36,12 +52,6 @@ body {
     -apple-system
   );
   line-height: 24px;
-  transition: background-color 0.3s ease;
-}
-
-.switch:hover {
-  border-top-color: #dadadb;
-  background-color: #e8e8e9;
 }
 
 /* Input */
@@ -51,8 +61,8 @@ body {
   -webkit-appearance: none;
   z-index: -1;
   position: absolute;
-  right: 26px;
-  top: 4px;
+  right: 6px;
+  top: -8px;
   display: block;
   margin: 0;
   border-radius: 50%;
@@ -69,17 +79,17 @@ body {
 /* Span */
 .switch > span {
   display: block;
+  width: 100%;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1666666667em;
   text-align: left;
-  font-size: 13px;
-  padding: 12px 20px;
 }
 
 /* Track */
 .switch > span::before {
   content: "";
-  position: absolute;
-  right: 20px;
+  float: right;
   display: inline-block;
   margin: 5px 0 5px 10px;
   border-radius: 7px;
@@ -94,8 +104,8 @@ body {
 .switch > span::after {
   content: "";
   position: absolute;
-  top: 14px;
-  right: 36px;
+  top: 2px;
+  right: 16px;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -107,7 +117,7 @@ body {
 
 /* Checked */
 .switch > input:checked {
-  right: 10px;
+  right: -10px;
   background-color: rgb(var(--primary-rgb, 33, 150, 243));
 }
 

@@ -1,6 +1,6 @@
 /**
- * By @Codehemu - https://raw.githubusercontent.com/hemucode/Adblock-for-YouTube/main/Microsoft%20Edge/bundled-content-script.js ( JS: MIT License)
- * License - https://github.com/hemucode/Adblock-for-YouTube/blob/main/LICENSE ( CSS: MIT License)
+ * By @Codehemu - https://github.com/hemucode/Skip-Video-Ads-in-YouTube/ ( JS: MIT License)
+ * License - https://github.com/hemucode/Skip-Video-Ads-in-YouTube/blob/main/LICENSE ( CSS: MIT License)
  */
 async function init() {
   try {
@@ -21,7 +21,6 @@ async function init() {
       });
 
     const displayVideoBranding = await b;
-    // console.log(displayVideoBranding);
 
     var c = new Promise(function(resolve, reject){
           chrome.storage.sync.get({"videoCount": 0}, function(options){
@@ -30,16 +29,16 @@ async function init() {
       });
 
     const videoCount = await c;
-    // console.log(videoCount);
+
 
     var d = new Promise(function(resolve, reject){
-          chrome.storage.sync.get({"videoCount": 21}, function(options){
-              resolve(options.videoCount);
+          chrome.storage.sync.get({"nextRatingRequest": 21}, function(options){
+              resolve(options.nextRatingRequest);
           })
     });
 
     const nextRatingRequest = await d;
-    // console.log(nextRatingRequest);
+
 
       
     if (
@@ -53,8 +52,8 @@ async function init() {
     }
 
     if (!enabled) return;
-    console.log(`[Video Ads Blocker for Youtube™ v${chrome.runtime.getManifest().version} Enabled]`);
-    console.log(chrome.i18n.getMessage("videoBranding") +` https://chrome.google.com/webstore/detail/${chrome.runtime.id}`)
+    console.log(`[Skip Video Ads in YouTube™ v${chrome.runtime.getManifest().version} Enabled]`);
+    console.log(chrome.i18n.getMessage("videoBranding") +` https://microsoftedge.microsoft.com/addons/detail/${chrome.runtime.id}`)
 
     // console.log("videoCount");
 
@@ -62,7 +61,7 @@ async function init() {
       onVideoElementMutation(appendVideoIndicator);
     }
 
-    await Promise.all([injectStyles(), injectMainScript("lib/scriptlets.js")]);
+    await Promise.all([injectStyles(), injectMainScript()]);
 
     /**
     * @returns Promise
@@ -89,18 +88,74 @@ function injectStyles() {
 /**
  * @returns Promise
  */
-function injectMainScript(src) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = chrome.runtime.getURL(src);
-    script.onload = function () {
-      this.remove();
-      resolve();
-    };
-    script.onerror = reject;
-    (document.head || document.documentElement).appendChild(script);
-  });
+
+function runSkipping() {
+  document.querySelector(".ytp-ad-skip-button")?.click();
+  document.querySelector(".ytp-ad-skip-button-modern")?.click();
+  document.querySelector(".ytp-ad-survey")?.click();
 }
+
+/**
+ * @returns Promise
+ */
+
+function runRewind() {
+  try {
+    const videoPlayer = document.querySelector(".video-stream");
+    videoPlayer.currentTime = videoPlayer.duration - 0.1;
+    videoPlayer.paused && videoPlayer.play();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function injectMainScript() {
+  const playerContainer = await waitForElement("#movie_player");
+  const observer = new MutationObserver(() => {
+    try {
+      const isAd =
+        playerContainer.classList.contains("ad-interrupting") ||
+        playerContainer.classList.contains("ad-showing");
+      const preText = document.querySelector(".ytp-ad-preview-text-modern");
+      if (isAd && preText) {
+        runSkipping();
+        runRewind();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+  observer.observe(playerContainer, {
+    subtree: !0,
+    childList: !0,
+    attributes: !0,
+  });
+
+}
+
+const waitForElement = async (selector) => {
+  return new Promise((resolve) => {
+    let observedElement = document.querySelector(selector);
+    if (observedElement) return resolve(observedElement);
+
+    let observer = new MutationObserver(() => {
+      let observedElement = document.querySelector(selector);
+      if (observedElement) {
+        observer.disconnect();
+        resolve(observedElement);
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      childList: !0,
+      subtree: !0,
+    });
+  });
+};
+
+
+
 
 async function waitForDOMReady() {
   return new Promise((resolve) => {
@@ -153,7 +208,7 @@ function appendVideoIndicator(target) {
 
   const wrapper = document.createElement("div");
   // Styles
-  wrapper.style.display = "flex";
+  wrapper.style.display = "inline-block";
   wrapper.style.position = "absolute";
   wrapper.style.bottom = "-13px";
   wrapper.style.fontSize = "10px";
@@ -165,7 +220,7 @@ function appendVideoIndicator(target) {
   // Create Element
   const anchor = document.createElement("a");
   anchor.className = "adblock-for-youtube-branding yt-formatted-string";
-  anchor.href = `https://chrome.google.com/webstore/detail/${chrome.runtime.id}`;
+  anchor.href = `https://microsoftedge.microsoft.com/addons/detail/${chrome.runtime.id}`;
   anchor.textContent = chrome.i18n.getMessage("videoBranding");
   anchor.target = "_blank";
   anchor.rel = "noopener";
@@ -191,7 +246,7 @@ function appendVideoIndicator(target) {
     return navigator.share({
       title: chrome.i18n.getMessage("extensionName"),
       text: chrome.i18n.getMessage("extensionDescription"),
-      url: `https://chrome.google.com/webstore/detail/${chrome.runtime.id}`,
+      url: `https://microsoftedge.microsoft.com/addons/detail/${chrome.runtime.id}`,
     });
   };
 

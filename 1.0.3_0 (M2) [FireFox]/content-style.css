@@ -1,4 +1,3 @@
-/* Hide by Element */
 ytd-promoted-video-renderer,
 ytd-movie-offer-module-renderer,
 ytd-promoted-sparkles-web-renderer,
@@ -8,7 +7,6 @@ ytd-player-legacy-desktop-watch-ads-renderer {
   visibility: hidden !important;
 }
 
-/* Hide by ID */
 #player-ads,
 #search-pva,
 #premium-yva,
@@ -29,7 +27,7 @@ ytd-player-legacy-desktop-watch-ads-renderer {
   visibility: hidden !important;
 }
 
-/* Hide by Class */
+
 
 .iv-promo,
 .video-ads,
@@ -51,7 +49,6 @@ ytd-player-legacy-desktop-watch-ads-renderer {
   visibility: hidden !important;
 }
 
-/* Hide by Rule */
 
 iframe[id^=ad_],
 div[class*="-ad-v"],
@@ -85,10 +82,12 @@ a[href^="https://www.googleadservices.com/pagead/aclk?"],
 ytd-compact-promoted-video-renderer,
 ytd-companion-slot-renderer,
 ytd-display-ad-renderer,
+ytd-in-feed-ad-layout-renderer,
 ytd-promoted-sparkles-text-search-renderer,
 ytd-promoted-sparkles-web-renderer,
 ytd-video-masthead-ad-advertiser-info-renderer,
 ytd-video-masthead-ad-v3-renderer,
+ytd-ad-slot-renderer,
 ytm-promoted-sparkles-web-renderer {
   display: none !important;
 }
