@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-message="actionTitle">Options</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div>
+      <img
+        class="logo"
+        width="128px"
+        height="128px"
+        src="../images/icon-128.png"
+        alt="logo"
+      />
+      <h1 data-message="extensionName"></h1>
+    </div>
+    <main>
+      <p data-message="extensionDescription">
+
+      </p>
+
+      <p data-message="timesaveInfo" class="timesave-info">
+        This extension already saved approx. 0 minutes of your lifetime.
+      </p>
+
+      <div class="control">
+        <label class="switch setting">
+          <input name="enabled" type="checkbox"/>
+          <span data-message="enabled">enabled</span>
+        </label>
+      </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
+
